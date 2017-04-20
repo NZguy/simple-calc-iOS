@@ -47,7 +47,7 @@ class TableViewController: UITableViewController {
         return cell
     }
     
-    // Is there a better way to share these structs across classes?
+    // Question: Is there a better way to share these structs across classes?
     func printEquation(equation: Calculator.Equation) -> String{
         var ret = ""
         

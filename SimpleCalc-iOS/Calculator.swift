@@ -26,7 +26,7 @@ class Calculator: NSObject {
     var numbers = [Double]()
     var operationPressed = false
     var history : [Equation] = [Equation]()
-    // Question: there has to be a better way of doing this
+    // Question: Is there a better way of doing this
     // Needed to display errors when they occur
     var currentViewController: UIViewController?
     
