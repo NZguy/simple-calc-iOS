@@ -10,16 +10,23 @@ import UIKit
 
 class Calculator: NSObject {
 
-    enum Operation: String{
+    enum calcOperation: String{
         case Plus = "+", Minus = "-", Multiply = "×", Divide = "÷", Modulus = "%", Count = "Count", Average = "Avg", Factorial = "Fact"
     }
     
-    var operation: Operation?
+    struct Equation {
+        var numbers : [Double]
+        var operation : calcOperation
+        var answer : Double
+    }
+    
+    let debug = false
+    var operation: calcOperation?
     var inputString: String = ""
     var numbers = [Double]()
     var operationPressed = false
-    let debug = false
-    // Question there has to be a better way of doing this
+    var history : [Equation] = [Equation]()
+    // Question: there has to be a better way of doing this
     // Needed to display errors when they occur
     var currentViewController: UIViewController?
     
@@ -31,7 +38,7 @@ class Calculator: NSObject {
 
     
     public func numberPressed(_ sender: UIButton) {
-        if operation == Operation.Factorial{
+        if operation == calcOperation.Factorial{
             // Factorial can only have one input
             calcError(message: "Factorial only supports one input")
         }else if Double(inputString) == 0{
@@ -50,22 +57,22 @@ class Calculator: NSObject {
             
             // Set operation to what was entered
             let inputOperation = sender.titleLabel!.text!
-            if inputOperation == Operation.Plus.rawValue{
-                operation = Operation.Plus
-            }else if inputOperation == Operation.Minus.rawValue{
-                operation = Operation.Minus
-            }else if inputOperation == Operation.Multiply.rawValue{
-                operation = Operation.Multiply
-            }else if inputOperation == Operation.Divide.rawValue{
-                operation = Operation.Divide
-            }else if inputOperation == Operation.Modulus.rawValue{
-                operation = Operation.Modulus
-            }else if inputOperation == Operation.Factorial.rawValue{
-                operation = Operation.Factorial
-            }else if inputOperation == Operation.Average.rawValue{
-                operation = Operation.Average
-            }else if inputOperation == Operation.Count.rawValue{
-                operation = Operation.Count
+            if inputOperation == calcOperation.Plus.rawValue{
+                operation = calcOperation.Plus
+            }else if inputOperation == calcOperation.Minus.rawValue{
+                operation = calcOperation.Minus
+            }else if inputOperation == calcOperation.Multiply.rawValue{
+                operation = calcOperation.Multiply
+            }else if inputOperation == calcOperation.Divide.rawValue{
+                operation = calcOperation.Divide
+            }else if inputOperation == calcOperation.Modulus.rawValue{
+                operation = calcOperation.Modulus
+            }else if inputOperation == calcOperation.Factorial.rawValue{
+                operation = calcOperation.Factorial
+            }else if inputOperation == calcOperation.Average.rawValue{
+                operation = calcOperation.Average
+            }else if inputOperation == calcOperation.Count.rawValue{
+                operation = calcOperation.Count
             }else{
                 calcError(message: inputOperation + " is not a supported operation")
                 errorFound = true
@@ -80,7 +87,7 @@ class Calculator: NSObject {
             
             let inputOperation = sender.titleLabel!.text!
             // Check if we are averaging or counting
-            if (operation == Operation.Average && inputOperation == Operation.Average.rawValue) || (operation == Operation.Count && inputOperation == Operation.Count.rawValue){
+            if (operation == calcOperation.Average && inputOperation == calcOperation.Average.rawValue) || (operation == calcOperation.Count && inputOperation == calcOperation.Count.rawValue){
                 
                 operationPressed = true
                 setNumber()
@@ -96,11 +103,17 @@ class Calculator: NSObject {
     func equalsPressed(_ sender: Any) {
         setNumber()
         let answer = calcAnswer()
+        // Keep a history of equations entered
+        if answer != nil{
+            history.append(Equation(numbers: numbers, operation: operation!, answer: answer!))
+        }
         resetCalc()
-        if answer == floor(answer){
-            inputString = String(Int(answer))
-        }else{
-            inputString = String(answer)
+        if answer != nil{
+            if answer! == floor(answer!){
+                inputString = String(Int(answer!))
+            }else{
+                inputString = String(answer!)
+            }
         }
     }
     
@@ -210,38 +223,39 @@ class Calculator: NSObject {
     func calcError(message: String){
         if currentViewController != nil{
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
             currentViewController!.present(alert, animated: true, completion: nil)
             resetCalc()
         }
     }
     
-    func calcAnswer() -> Double{
-        if operation == Operation.Plus{
+    func calcAnswer() -> Double?{
+        if operation == calcOperation.Plus{
             return numbers[0] + numbers[1]
-        }else if operation == Operation.Minus{
+        }else if operation == calcOperation.Minus{
             return numbers[0] - numbers[1]
-        }else if operation == Operation.Multiply{
+        }else if operation == calcOperation.Multiply{
             return numbers[0] * numbers[1]
-        }else if operation == Operation.Divide{
+        }else if operation == calcOperation.Divide{
             return numbers[0] / numbers[1]
-        }else if operation == Operation.Modulus{
+        }else if operation == calcOperation.Modulus{
             if numbers[0] == floor(numbers[0]) && numbers[1] == floor(numbers[1]){
                 let result = Int(numbers[0]) % Int(numbers[1])
                 return Double(result)
             }else{
                 calcError(message: "Modulus can only be performed on integers")
+                return nil
             }
-        }else if operation == Operation.Average{
+        }else if operation == calcOperation.Average{
             var sum = 0.0
             for i in 0...(numbers.count-1){
                 sum = sum + numbers[i]
             }
             let result = sum / Double(numbers.count)
             return result
-        }else if operation == Operation.Count{
+        }else if operation == calcOperation.Count{
             return Double(numbers.count)
-        }else if operation == Operation.Factorial{
+        }else if operation == calcOperation.Factorial{
             if numbers[0] >= 0 && floor(numbers[0]) == numbers[0]{
                 var result = 0
                 if numbers[0] == 0{
@@ -255,10 +269,11 @@ class Calculator: NSObject {
                 return Double(result)
             }else {
                 calcError(message: "Factorial can only be called on one positive integer")
+                return nil
             }
         }
         // This should never happen
-        return 0.0
+        return nil
     }
 
     

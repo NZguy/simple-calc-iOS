@@ -54,8 +54,3 @@ class ViewController: UIViewController {
     }
     
 }
-
-/*
- For errors
- 
- */

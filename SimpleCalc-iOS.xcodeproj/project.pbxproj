@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		111BC3091EA8581B003E0732 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111BC3081EA8581B003E0732 /* TableViewController.swift */; };
 		115A5C021EA448CF00D323D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A5C011EA448CF00D323D8 /* AppDelegate.swift */; };
 		115A5C041EA448CF00D323D8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A5C031EA448CF00D323D8 /* ViewController.swift */; };
 		115A5C071EA448CF00D323D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 115A5C051EA448CF00D323D8 /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		111BC3081EA8581B003E0732 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		115A5BFE1EA448CF00D323D8 /* SimpleCalc-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SimpleCalc-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		115A5C011EA448CF00D323D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		115A5C031EA448CF00D323D8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,11 +60,12 @@
 			children = (
 				115A5C011EA448CF00D323D8 /* AppDelegate.swift */,
 				115A5C031EA448CF00D323D8 /* ViewController.swift */,
+				111BC3081EA8581B003E0732 /* TableViewController.swift */,
+				11B1A3551EA7F38400C8B798 /* Calculator.swift */,
 				115A5C051EA448CF00D323D8 /* Main.storyboard */,
 				115A5C081EA448CF00D323D8 /* Assets.xcassets */,
 				115A5C0A1EA448CF00D323D8 /* LaunchScreen.storyboard */,
 				115A5C0D1EA448CF00D323D8 /* Info.plist */,
-				11B1A3551EA7F38400C8B798 /* Calculator.swift */,
 			);
 			path = "SimpleCalc-iOS";
 			sourceTree = "<group>";
@@ -142,6 +145,7 @@
 				115A5C041EA448CF00D323D8 /* ViewController.swift in Sources */,
 				115A5C021EA448CF00D323D8 /* AppDelegate.swift in Sources */,
 				11B1A3561EA7F38400C8B798 /* Calculator.swift in Sources */,
+				111BC3091EA8581B003E0732 /* TableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
