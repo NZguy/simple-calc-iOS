@@ -43,7 +43,6 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customcell", for: indexPath)
-        print("hello")
         cell.textLabel?.text = printEquation(equation: calc.history[indexPath.item])
         return cell
     }
@@ -55,22 +54,30 @@ class TableViewController: UITableViewController {
         // Format numbers to remove decimal if they are ints
         var strNumbers = [String]()
         for number in equation.numbers{
+            
             if floor(number) == number{
+                //print("\(floor(number)) == \(number) == \(Int(number))")
                 strNumbers.append(String(Int(number)))
             }else{
                 strNumbers.append(String(number))
             }
         }
+        var strAnswer = ""
+        if floor(equation.answer) == equation.answer{
+            strAnswer = String(Int(equation.answer))
+        }else{
+            strAnswer = String(equation.answer)
+        }
         
         // Format equation as a string
         switch equation.operation{
         case Calculator.calcOperation.Plus, Calculator.calcOperation.Minus, Calculator.calcOperation.Divide, Calculator.calcOperation.Multiply, Calculator.calcOperation.Modulus:
-            ret = "\(equation.numbers[0]) \(equation.operation.rawValue) \(equation.numbers[1]) = \(equation.answer)"
+            ret = "\(strNumbers[0]) \(equation.operation.rawValue) \(strNumbers[1]) = \(strAnswer)"
         case Calculator.calcOperation.Count, Calculator.calcOperation.Factorial, Calculator.calcOperation.Average:
             for number in strNumbers{
                 ret += "\(number) "
             }
-            ret += "\(equation.operation.rawValue) = \(equation.answer)"
+            ret += "\(equation.operation.rawValue) = \(strAnswer)"
         }
         return ret
     }
